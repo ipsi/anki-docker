@@ -1,0 +1,30 @@
+services:
+  anki:
+    image: anki-community/anki:latest
+    container_name: anki
+    build:
+      context: .
+      pull: true
+      tags:
+      - anki-community/anki:latest
+    volumes:
+      - anki-data:/data
+    secrets:
+      - SYNC_USER1
+    environment:
+      SYNC_USER1_FILE: /run/secrets/SYNC_USER1
+    restart: unless-stopped
+    networks:
+    - anki
+
+networks:
+  anki:
+    external: true
+
+volumes:
+  anki-data:
+    external: true
+
+secrets:
+  SYNC_USER1:
+    file: "./secrets/SYNC_USER1"
